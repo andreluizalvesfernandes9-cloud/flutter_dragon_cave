@@ -22,7 +22,17 @@ class TelaInicial extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      body: Center(
+        child: Column(
+          mainAxisAlignment: .center,
+          children: [
+            Text('Caverna Do Dragão',
+            style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            ElevatedButton(onPressed: () {}, child: Text('Entrar')),
+          ],
+        )
+      )
     );
   }
 }
