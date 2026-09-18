@@ -8,6 +8,7 @@ class TelaDeGameplay extends StatefulWidget {
   final int poder;
   final int inteligencia;
 
+
   const TelaDeGameplay({
     super.key,
     required this.heroi,
