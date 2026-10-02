@@ -8,7 +8,6 @@ class TelaDeGameplay extends StatefulWidget {
   final int poder;
   final int inteligencia;
 
-
   const TelaDeGameplay({
     super.key,
     required this.heroi,
@@ -24,25 +23,38 @@ class TelaDeGameplay extends StatefulWidget {
 }
 
 class _TelaDeGameplayState extends State<TelaDeGameplay> {
-  double posicaoHorizontal = 40;
-  double alturaDoPulo = 0;
+  double posicaoHorizontalHeroi = 40;
+  double posicaoVerticalHeroi = 0;
+
+  late int _vida;
+
+  bool pocaoColetada = false;
+  bool pulando = false;
 
   int miliss = 200;
 
-  bool pulando = false;
+  @override
+  void initState() {
+    super.initState();
+    _vida = widget.vida;
+  }
 
   void andarParaDireita() {
     setState(() {
-      posicaoHorizontal += 40;
+      posicaoHorizontalHeroi += 40;
     });
+
+    checarColisao();
   }
 
   void andarParaEsquerda() {
     setState(() {
-      if (posicaoHorizontal > 10) {
-        posicaoHorizontal -= 40;
+      if (posicaoHorizontalHeroi > 10) {
+        posicaoHorizontalHeroi -= 40;
       }
     });
+
+    checarColisao();
   }
 
   void pular() async {
@@ -50,16 +62,20 @@ class _TelaDeGameplayState extends State<TelaDeGameplay> {
 
     setState(() {
       pulando = true;
-      alturaDoPulo = -180;
+      posicaoVerticalHeroi = -180;
     });
+
+    checarColisao();
 
     await Future.delayed(
       const Duration(milliseconds: 300),
     );
 
     setState(() {
-      alturaDoPulo = 0;
+      posicaoVerticalHeroi = 0;
     });
+
+    checarColisao();
 
     await Future.delayed(
       const Duration(milliseconds: 200),
@@ -68,6 +84,48 @@ class _TelaDeGameplayState extends State<TelaDeGameplay> {
     setState(() {
       pulando = false;
     });
+  }
+
+  void checarColisao() {
+    if (pocaoColetada) return;
+
+    final larguraTela = MediaQuery.of(context).size.width;
+
+    final posicaoPocao = larguraTela - 160;
+
+    bool bateX =
+        (posicaoHorizontalHeroi - posicaoPocao).abs() < 90;
+
+    bool bateY = posicaoVerticalHeroi.abs() < 120;
+
+    if (bateX && bateY) {
+      setState(() {
+        pocaoColetada = true;
+        _vida += 25;
+      });
+
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            "❤️ Você adquiriu mais 25 de vida!",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: Colors.grey.shade800,
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 2),
+          margin: const EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -82,6 +140,24 @@ class _TelaDeGameplayState extends State<TelaDeGameplay> {
               fit: BoxFit.cover,
             ),
           ),
+
+          // POÇÃO
+          if (!pocaoColetada)
+            Positioned(
+              right: 120,
+              bottom: 120,
+              child: Image.network(
+                "https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/75/Water_Bottle_JE2_BE2.png/revision/latest/thumbnail/width/360/height/360?cb=20191027055423",
+                height: 80,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.broken_image,
+                    size: 60,
+                    color: Colors.white,
+                  );
+                },
+              ),
+            ),
 
           // INFORMAÇÕES
           Positioned(
@@ -108,7 +184,7 @@ class _TelaDeGameplayState extends State<TelaDeGameplay> {
                   const SizedBox(height: 5),
 
                   Text(
-                    "❤️ Vida: ${widget.vida}",
+                    "❤️ Vida: $_vida",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -147,10 +223,10 @@ class _TelaDeGameplayState extends State<TelaDeGameplay> {
           AnimatedPositioned(
             duration: Duration(milliseconds: miliss),
             curve: Curves.easeOut,
-            left: posicaoHorizontal,
+            left: posicaoHorizontalHeroi,
             bottom: 120,
             child: Transform.translate(
-              offset: Offset(0, alturaDoPulo),
+              offset: Offset(0, posicaoVerticalHeroi),
               child: Image.network(
                 widget.imagem,
                 height: 130,
