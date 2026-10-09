@@ -24,7 +24,11 @@ class TelaDeGameplay extends StatefulWidget {
 
 class _TelaDeGameplayState extends State<TelaDeGameplay> {
   double posicaoHorizontalHeroi = 40;
-  double posicaoVerticalHeroi = 0;
+  double posicaoVerticalHeroi = 120;
+
+  // Posição do S1mple Sorrateiro
+  double inimigoX = 300.0;
+  double inimigoY = 50.0;
 
   late int _vida;
 
@@ -239,6 +243,12 @@ class _TelaDeGameplayState extends State<TelaDeGameplay> {
                 },
               ),
             ),
+          ),
+          Positioned(
+            bottom: inimigoY,
+            left: inimigoX,
+            child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_D3km_H4B58cKV2ebtmEqkGZJsKTL2DcxosTDZIj9id1G7EoyQj-uNazS&s=10',
+                   width: 150, height: 130),
           ),
 
           // BOTÃO ESQUERDA

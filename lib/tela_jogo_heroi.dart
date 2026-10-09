@@ -211,10 +211,10 @@ class TelaJogoHeroiState extends State<TelaJogoHeroi> {
         nomeHeroi = "Gabriel " "'FalleN'" " Toledo de Alcântara Sguario";
         titulo = "O Professor";
 
-        vida = 2000;
-        moedas = 1000;
-        poder = 999999;
-        inteligencia = 5000000;
+        vida = 200;
+        moedas = 50000;
+        poder = 999;
+        inteligencia = 5000;
 
         urlImagem =
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEDhDwart9I8IjvoGDhdnoYRoBwbRNGy494TxcK-hvjg&s";
@@ -223,10 +223,10 @@ class TelaJogoHeroiState extends State<TelaJogoHeroi> {
         nomeHeroi = "Marcelo" " 'Coldzera'" " David";
         titulo = "The Brazilian Terminator";
 
-        vida = 1000;
-        moedas = 100;
-        poder = 1000000;
-        inteligencia = 1000000;
+        vida = 200;
+        moedas = 10000;
+        poder = 100;
+        inteligencia = 1000;
 
         urlImagem =
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAbrk_2kboawxahxigoLVrOfkpN8mqAnbPIiGY4ymoYw&s";
@@ -235,9 +235,9 @@ class TelaJogoHeroiState extends State<TelaJogoHeroi> {
         nomeHeroi = "Nikita" " 'HeavyGod'" " Martynenko";
         titulo = "Buger King";
 
-        vida = 13;
+        vida = 100;
         moedas = 1000;
-        poder = 0;
+        poder = 1;
         inteligencia = 1;
 
         urlImagem =
